@@ -33,7 +33,7 @@ jobs:
         with:
           repository: YOUR_ORG_OR_USER/sample-common-lib
           path: deps/sample-common-lib
-          token: ${{ secrets.CROSS_REPO_TOKEN }}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}}
 
       - uses: actions/setup-java@v4
         with:
