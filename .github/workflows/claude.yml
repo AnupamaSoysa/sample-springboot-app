@@ -23,8 +23,17 @@ jobs:
       issues: write
       actions: read
       id-token: write
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout app repo
+        uses: actions/checkout@v4
+
+      - name: Checkout dependency repo (so Claude can edit it too)
+        uses: actions/checkout@v4
+        with:
+          repository: YOUR_ORG_OR_USER/sample-common-lib
+          path: deps/sample-common-lib
+          token: ${{ secrets.CROSS_REPO_TOKEN }}
 
       - uses: actions/setup-java@v4
         with:
@@ -32,12 +41,32 @@ jobs:
           java-version: "17"
           cache: maven
 
+      - name: Configure git identity
+        run: |
+          git config --global user.name "claude-bot"
+          git config --global user.email "claude-bot@users.noreply.github.com"
+
       - name: Run Claude Code
         uses: anthropics/claude-code-action@v1
+        env:
+          # lets Claude use `gh` to open PRs across repos (if your CLAUDE.md tells it to)
+          GH_TOKEN: ${{ secrets.CROSS_REPO_TOKEN }}
         with:
-          # pick ONE:
-          # anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
+          settings: |
+            {
+              "permissions": {
+                "defaultMode": "acceptEdits",
+                "allow": [
+                  "Edit(./**)",
+                  "Write(./**)",
+                  "Bash(git:*)",
+                  "Bash(mvn:*)",
+                  "Bash(gh:*)"
+                ]
+              }
+            }
 
           claude_args: |
             --max-turns 20
