@@ -31,9 +31,9 @@ jobs:
       - name: Checkout dependency repo (so Claude can edit it too)
         uses: actions/checkout@v4
         with:
-          repository: YOUR_ORG_OR_USER/sample-common-lib
+          repository: AnupamaSoysa/sample-common-lib
           path: deps/sample-common-lib
-          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}}
+          token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
       - uses: actions/setup-java@v4
         with:
@@ -50,7 +50,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         env:
           # lets Claude use `gh` to open PRs across repos (if your CLAUDE.md tells it to)
-          GH_TOKEN: ${{ secrets.CROSS_REPO_TOKEN }}
+          GH_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
