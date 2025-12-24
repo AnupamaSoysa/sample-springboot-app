@@ -63,7 +63,14 @@ jobs:
                   "Write(./**)",
                   "Bash(git:*)",
                   "Bash(mvn:*)",
-                  "Bash(gh:*)"
+                  "Bash(gh:*)",
+                  "Bash(mkdir:*)",
+                  "Bash(touch:*)",
+                  "Bash(cat:*)",
+                  "Bash(ls:*)",
+                  "Bash(rm:*)",
+                  "Bash(cp:*)",
+                  "Bash(mv:*)"
                 ]
               }
             }
