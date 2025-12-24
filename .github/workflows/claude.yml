@@ -76,4 +76,4 @@ jobs:
             }
 
           claude_args: |
-            --max-turns 20
+            --max-turns 40
